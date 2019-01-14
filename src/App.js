@@ -2,146 +2,35 @@ import React from "react";
 import {
   Container,
   Grid,
-  Header,
-  Checkbox,
-  List,
-  Image,
-  Button
+  Header
 } from "semantic-ui-react";
-import Calendar from "react-calendar";
 
-import config from './firebase-config';
-import firebase from 'firebase';
-import 'firebase/firestore';
-
-firebase.initializeApp(config);
-
-const db = firebase.firestore()
+import Chat from './Chat';
+import Habits from './Habits';
+import Calendar from './Calendar';
+import ProgressReport from './ProgressReport';
+import Tasks from './Tasks';
 
 const App = () => (
 <div>
-  <Grid style={{
+  <Grid columns={3} divided style={{
       padding: "4em"
     }}>
-    <Grid.Column width={3}>
+    <Grid.Column width={4}>
       <Container>
-        <Header as="h1" dividing="dividing">
-          Calendar and Progress Report
-        </Header>
-        <Header as="h3">Calendar</Header>
-        <Calendar/>
-        <Header as="h3">Progress Report</Header>
-        <div class="ui cards">
-          <div class="card">
-            <div class="content">
-              <div class="header">Matt
-              </div>
-              <div class="description">
-                <div class="description">
-                  <Grid.Row>
-                    <span class="right floated">
-                      75%
-                    </span>
-                    <span>
-                      <i class="check icon"></i>
-                      Tasks
-                    </span>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <span class="right floated">
-                      100%
-                    </span>
-                    <span>
-                      <i class="user icon"></i>
-                      Habits
-                    </span>
-                  </Grid.Row>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="content">
-              <div class="header">Molly</div>
-              <div class="description">
-                <Grid.Row>
-                  <span class="right floated">
-                    50%
-                  </span>
-                  <span>
-                    <i class="check icon"></i>
-                    Tasks
-                  </span>
-                </Grid.Row>
-                <Grid.Row>
-                  <span class="right floated">
-                    85%
-                  </span>
-                  <span>
-                    <i class="user icon"></i>
-                    Habits
-                  </span>
-                </Grid.Row>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Calendar />
+        <ProgressReport />
       </Container>
     </Grid.Column>
     <Grid.Column width={6}>
-      <Container>
-        <Header as="h1" dividing="dividing">
-          Today's Date
-        </Header>
-        <Header as="h3">Habits</Header>
-        <Checkbox label="Habit"/>
-        <br/>
-        <Checkbox label="Habit"/>
-        <br/>
-        <Checkbox label="Habit"/>
-        <Header as="h3">Tasks</Header>
-        <Checkbox label="Task"/>
-        <br/>
-        <Checkbox label="Task"/>
-        <br/>
-        <Checkbox label="Task"/>
-      </Container>
+      <Header as="h1" dividing="dividing">
+        Today's Date
+      </Header>
+      <Habits />
+      <Tasks />
     </Grid.Column>
     <Grid.Column width={6}>
-      <Container>
-        <Header as="h1" dividing="dividing">
-          Chat
-        </Header>
-        <List>
-          <List.Item>
-            <Image avatar="avatar" src="favicon.ico"/>
-            <List.Content>
-              <List.Header as="a">Rachel</List.Header>
-              <List.Description>
-                Last seen watching{" "}
-                <a>
-                  <b>Arrested Development</b>
-                </a>{" "}
-                just now.
-              </List.Description>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <Image avatar="avatar" src="favicon.ico"/>
-            <List.Content>
-              <List.Header as="a">Rachel</List.Header>
-              <List.Description>
-                Last seen watching{" "}
-                <a>
-                  <b>Arrested Development</b>
-                </a>{" "}
-                just now.
-              </List.Description>
-            </List.Content>
-          </List.Item>
-        </List>
-        <button class="ui button">Click Here</button>
-      </Container>
+      <Chat />
     </Grid.Column>
   </Grid>
 </div>

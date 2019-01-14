@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+import 'firebase/firestore';
+
 var config = {
   apiKey: "AIzaSyBeZ7ACFXNen1rHfYl11S09oNMpjWgGSvM",
   authDomain: "accountability-4c3ef.firebaseapp.com",
@@ -7,4 +10,8 @@ var config = {
   messagingSenderId: "806564346150"
 };
 
-export default config;
+firebase.initializeApp(config);
+
+const db = firebase.firestore()
+
+export default db;
