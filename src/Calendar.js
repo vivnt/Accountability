@@ -5,7 +5,9 @@ import {
 } from "semantic-ui-react";
 import Calendar from "react-calendar";
 
-class Toggle extends React.Component {
+
+// TODO: Not sure if I need this since I can just import the Calendar itself
+class CalendarView extends React.Component {
 
   render() {
     return (
@@ -20,4 +22,4 @@ class Toggle extends React.Component {
   }
 }
 
-export default Toggle;
+export default CalendarView;

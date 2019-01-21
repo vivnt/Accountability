@@ -5,7 +5,7 @@ import {
   Checkbox
 } from "semantic-ui-react";
 
-class Toggle extends React.Component {
+class Habits extends React.Component {
 
   render() {
     return (
@@ -21,4 +21,4 @@ class Toggle extends React.Component {
   }
 }
 
-export default Toggle;
+export default Habits;

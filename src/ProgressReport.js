@@ -5,7 +5,7 @@ import {
   Header,
 } from "semantic-ui-react";
 
-class Toggle extends React.Component {
+class ProgressReport extends React.Component {
 
   render() {
     return (
@@ -71,4 +71,4 @@ class Toggle extends React.Component {
   }
 }
 
-export default Toggle;
+export default ProgressReport;

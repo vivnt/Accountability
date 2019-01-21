@@ -3,7 +3,7 @@ import {Container, Header, List, Image} from "semantic-ui-react";
 
 import db from './firebase-config';
 
-class Toggle extends React.Component {
+class Chat extends React.Component {
 
   handleClick() {
     db.collection("cities").doc("LA").set({name: "Los Angeles", state: "CA", country: "USA"}).then(function() {
@@ -43,4 +43,4 @@ class Toggle extends React.Component {
   }
 }
 
-export default Toggle;
+export default Chat;
