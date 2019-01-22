@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Checkbox, Form, Input, Select, TextArea, Container } from 'semantic-ui-react'
-import db from './firebase-config';
-import auth from './firebase-config';
+import  { db, auth } from './firebase-config';
 
 const gender = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -43,28 +42,39 @@ const timezone = [
 ]
 
 class SignUp extends Component {
-  state = {}
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
 
-handleClick() {
-  auth.createUserWithEmailAndPassword("vivian@me.com", "password").catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-  });
-  // db.collection("users").doc("LA").set({name: "Los Angeles", state: "CA", country: "USA"}).then(function() {
-  //   console.log("Document successfully written!");
-  // }).catch(function(error) {
-  //   console.error("Error writing document: ", error);
-  // });
-}
+  handleClick = () => {
+    auth.createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      console.log(error);
+    }).then(function(results) {
+      console.log(results);
+    });
+    //TODO: Write to DB for user information. Might want to move to profile loading screen
+    // db.collection("users").doc("LA").set({name: "Los Angeles", state: "CA", country: "USA"}).then(function() {
+    //   console.log("Document successfully written!");
+    // }).catch(function(error) {
+    //   console.error("Error writing document: ", error);
+    // });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    }, function() {
+      console.log(this.state)
+    });
+  }
 
   render() {
     return (<Container text="text">
       <Form>
-        {/*<Form.Field required control={Input} label='Email' placeholder='Email'/>
-        <Form.Field required control={Input} label='Password' placeholder='Password'/>
-        <Form.Field required control={Input} label='Password' placeholder='Password'/>*/}
+        <Form.Field required control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
+        <Form.Field required control={Input} onChange={this.handleChange} name='password' label='Password' placeholder='Password'/>
+        <Form.Field required control={Input} onChange={this.handleChange} name='confirmPassword' label='Password' placeholder='Password'/>
         <Form.Field required control={Button} onClick={this.handleClick}>Submit</Form.Field>
       </Form>
 
