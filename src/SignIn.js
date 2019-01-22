@@ -48,17 +48,12 @@ class SignUp extends Component {
   }
 
   handleClick = () => {
-    auth.createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+    auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       console.log(error);
     }).then(function(results) {
       console.log(results);
+      console.log("Logged In!")
     });
-    //TODO: Write to DB for user information. Might want to move to profile loading screen
-    // db.collection("users").doc("LA").set({name: "Los Angeles", state: "CA", country: "USA"}).then(function() {
-    //   console.log("Document successfully written!");
-    // }).catch(function(error) {
-    //   console.error("Error writing document: ", error);
-    // });
   }
 
   handleChange = (e) => {
@@ -72,7 +67,6 @@ class SignUp extends Component {
       <Form>
         <Form.Field required control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
         <Form.Field required control={Input} onChange={this.handleChange} name='password' label='Password' placeholder='Password'/>
-        <Form.Field required control={Input} onChange={this.handleChange} name='confirmPassword' label='Password' placeholder='Password'/>
         <Form.Field required control={Button} onClick={this.handleClick}>Submit</Form.Field>
       </Form>
 
