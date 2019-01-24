@@ -33,7 +33,7 @@ const timezone = [
   { key: "GMT-11", text: "GMT-11", value: "GMT-11" },
   { key: "GMT-12", text: "GMT-12", value: "GMT-12" },
   { key: "GMT", text: "GMT", value: "GMT" },
-  { key: "GMT-1", text: "GMT+1", value: "GMT+1" },
+  { key: "GMT+1", text: "GMT+1", value: "GMT+1" },
   { key: "GMT+2", text: "GMT+2", value: "GMT+2" },
   { key: "GMT+3", text: "GMT+3", value: "GMT+3" },
   { key: "GMT+4", text: "GMT+4", value: "GMT+4" },
@@ -55,6 +55,16 @@ class Profile extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+      var user = auth.currentUser;
+
+      if (!user) {
+        // User is signed in.
+        this.props.history.push("/signin")
+      }
+
+  }
+
   handleClick = () => {
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -71,6 +81,7 @@ class Profile extends Component {
     auth.signOut().then(
       function() {
         console.log("Signed Out");
+        this.props.history.push("/signin")
       },
       function(error) {
         console.error("Sign Out Error", error);
@@ -90,10 +101,10 @@ class Profile extends Component {
 
   render() {
     return (
-      <Container text="text">
+      <Container text>
         <Form>
           <Form.Field
-            required="required"
+            required
             control={Input}
             onChange={this.handleChange}
             name="email"
@@ -101,7 +112,7 @@ class Profile extends Component {
             placeholder="Email"
           />
           <Form.Field
-            required="required"
+            required
             control={Input}
             onChange={this.handleChange}
             name="password"
@@ -110,7 +121,7 @@ class Profile extends Component {
             placeholder="Password"
           />
           <Form.Field
-            required="required"
+            required
             control={Button}
             onClick={this.handleClick}
           >
@@ -160,7 +171,7 @@ class Profile extends Component {
 
         <Form>
           <Form.Field
-            required="required"
+            required
             control={Button}
             onClick={this.signOut}
           >
@@ -170,7 +181,7 @@ class Profile extends Component {
 
         <Form>
           <Form.Field
-            required="required"
+            required
             control={Button}
             onClick={this.handleSubmit}
           >

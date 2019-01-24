@@ -13,8 +13,7 @@ class SignIn extends Component {
 
     if (user) {
       // User is signed in.
-    } else {
-      // No user is signed in.
+      this.props.history.push("/profile")
     }
   }
 
@@ -54,11 +53,11 @@ class SignIn extends Component {
   }
 
   render() {
-    return (<Container text="text">
+    return (<Container text>
       <Form>
-        <Form.Field required="required" control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
-        <Form.Field required="required" control={Input} onChange={this.handleChange} name='password' type='password' label='Password' placeholder='Password'/>
-        <Form.Field required="required" control={Button} onClick={this.handleClick}>Submit</Form.Field>
+        <Form.Field required control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
+        <Form.Field required control={Input} onChange={this.handleChange} name='password' type='password' label='Password' placeholder='Password'/>
+        <Form.Field required control={Button} onClick={this.handleClick}>Submit</Form.Field>
       </Form>
 
       {/* TODO: Add after creating the user

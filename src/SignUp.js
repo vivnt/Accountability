@@ -8,6 +8,15 @@ class SignUp extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    var user = auth.currentUser;
+
+    if (user) {
+      // User is signed in.
+      this.props.history.push("/profile")
+    }
+  }
+
   handleClick = () => {
     auth
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -33,7 +42,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <Container text="text">
+      <Container text>
         <Form>
           <Form.Field
             required
