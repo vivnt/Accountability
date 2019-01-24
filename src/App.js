@@ -32,7 +32,7 @@ class AppRouter extends React.Component {
           </ul>
         </nav>
 
-        <Route path="/" exact="exact" component={Home}/>
+        <Route path="/" exact component={Home}/>
         <Route path="/signup" component={SignUp}/>
         <Route path="/signin" component={SignIn}/>
         <Route path="/profile" component={Profile}/>

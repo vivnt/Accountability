@@ -12,7 +12,7 @@ class CalendarView extends React.Component {
   render() {
     return (
       <Container>
-        <Header as="h1" dividing="dividing">
+        <Header as="h1" dividing>
           Calendar and Progress Report
         </Header>
         <Header as="h3">Calendar</Header>
