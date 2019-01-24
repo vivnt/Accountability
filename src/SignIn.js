@@ -1,59 +1,46 @@
-import React, { Component } from 'react'
-import { Button, Checkbox, Form, Input, Select, TextArea, Container } from 'semantic-ui-react'
-import  { db, auth } from './firebase-config';
+import React, {Component} from 'react'
+import {Button, Form, Input, Container} from 'semantic-ui-react'
+import {auth} from './firebase-config';
 
-const gender = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-]
-const age = [
-  { key: '0-18', text: '0-18 years', value: '0-18' },
-  { key: '19-34', text: '19-34 years', value: '19-34' },
-  { key: '35+', text: '35+ years', value: '35+' },
-]
-const timezone = [
-  { key: 'GMT-1', text: 'GMT-1', value: 'GMT-1' },
-  { key: 'GMT-2', text: 'GMT-2', value: 'GMT-2' },
-  { key: 'GMT-3', text: 'GMT-3', value: 'GMT-3' },
-  { key: 'GMT-4', text: 'GMT-4', value: 'GMT-4' },
-  { key: 'GMT-5', text: 'GMT-5', value: 'GMT-5' },
-  { key: 'GMT-6', text: 'GMT-6', value: 'GMT-6' },
-  { key: 'GMT-7', text: 'GMT-7', value: 'GMT-7' },
-  { key: 'GMT-8', text: 'GMT-8', value: 'GMT-8' },
-  { key: 'GMT-9', text: 'GMT-9', value: 'GMT-9' },
-  { key: 'GMT-10', text: 'GMT-10', value: 'GMT-10' },
-  { key: 'GMT-11', text: 'GMT-11', value: 'GMT-11' },
-  { key: 'GMT-12', text: 'GMT-12', value: 'GMT-12' },
-  { key: 'GMT', text: 'GMT', value: 'GMT' },
-  { key: 'GMT-1', text: 'GMT+1', value: 'GMT+1' },
-  { key: 'GMT+2', text: 'GMT+2', value: 'GMT+2' },
-  { key: 'GMT+3', text: 'GMT+3', value: 'GMT+3' },
-  { key: 'GMT+4', text: 'GMT+4', value: 'GMT+4' },
-  { key: 'GMT+5', text: 'GMT+5', value: 'GMT+5' },
-  { key: 'GMT+6', text: 'GMT+6', value: 'GMT+6' },
-  { key: 'GMT+7', text: 'GMT+7', value: 'GMT+7' },
-  { key: 'GMT+8', text: 'GMT+8', value: 'GMT+8' },
-  { key: 'GMT+9', text: 'GMT+9', value: 'GMT+9' },
-  { key: 'GMT+10', text: 'GMT+10', value: 'GMT+10' },
-  { key: 'GMT+11', text: 'GMT+11', value: 'GMT+11' },
-  { key: 'GMT+12', text: 'GMT+12', value: 'GMT+12' },
-  { key: 'GMT+13', text: 'GMT+13', value: 'GMT+13' },
-  { key: 'GMT+14', text: 'GMT+14', value: 'GMT+14' },
-]
-
-class SignUp extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {}
   }
 
+  componentDidMount() {
+    var user = auth.currentUser;
+
+    if (user) {
+      // User is signed in.
+    } else {
+      // No user is signed in.
+    }
+  }
+
   handleClick = () => {
+    const app = this
     auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       console.log(error);
-    }).then(function(results) {
-      console.log(results);
-      console.log("Logged In!")
+    }).then(function() {
+      auth.onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          app.props.history.push("/")
+        }
+      });
+    }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      if (errorCode === 'auth/wrong-password') {
+        alert('Wrong password.');
+      } else {
+        alert(errorMessage);
+      }
     });
+
+
   }
 
   handleChange = (e) => {
@@ -62,12 +49,16 @@ class SignUp extends Component {
     });
   }
 
+  handleSubmit = () => {
+    this.props.history.push("/")
+  }
+
   render() {
     return (<Container text="text">
       <Form>
-        <Form.Field required control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
-        <Form.Field required control={Input} onChange={this.handleChange} name='password' label='Password' placeholder='Password'/>
-        <Form.Field required control={Button} onClick={this.handleClick}>Submit</Form.Field>
+        <Form.Field required="required" control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
+        <Form.Field required="required" control={Input} onChange={this.handleChange} name='password' type='password' label='Password' placeholder='Password'/>
+        <Form.Field required="required" control={Button} onClick={this.handleClick}>Submit</Form.Field>
       </Form>
 
       {/* TODO: Add after creating the user
@@ -89,4 +80,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default SignIn;
