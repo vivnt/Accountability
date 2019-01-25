@@ -24,7 +24,7 @@ const App = () => (
       </Grid.Column>
       <Grid.Column width={6}>
         <Header as="h1" dividing>
-          Today's Date
+          Date
         </Header>
         <Habits />
         <Tasks />

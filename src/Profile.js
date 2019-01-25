@@ -56,13 +56,12 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-      var user = auth.currentUser;
+    var user = auth.currentUser;
 
-      if (!user) {
-        // User is signed in.
-        this.props.history.push("/signin")
-      }
-
+    if (!user) {
+      // User is signed in.
+      this.props.history.push("/signin");
+    }
   }
 
   handleClick = () => {
@@ -81,7 +80,7 @@ class Profile extends Component {
     auth.signOut().then(
       function() {
         console.log("Signed Out");
-        this.props.history.push("/signin")
+        this.props.history.push("/signin");
       },
       function(error) {
         console.error("Sign Out Error", error);
@@ -120,11 +119,7 @@ class Profile extends Component {
             label="Password"
             placeholder="Password"
           />
-          <Form.Field
-            required
-            control={Button}
-            onClick={this.handleClick}
-          >
+          <Form.Field required control={Button} onClick={this.handleClick}>
             Submit
           </Form.Field>
         </Form>
@@ -170,21 +165,13 @@ class Profile extends Component {
         </Form>
 
         <Form>
-          <Form.Field
-            required
-            control={Button}
-            onClick={this.signOut}
-          >
+          <Form.Field required control={Button} onClick={this.signOut}>
             Sign Out
           </Form.Field>
         </Form>
 
         <Form>
-          <Form.Field
-            required
-            control={Button}
-            onClick={this.handleSubmit}
-          >
+          <Form.Field required control={Button} onClick={this.handleSubmit}>
             Submit
           </Form.Field>
         </Form>
