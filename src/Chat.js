@@ -1,7 +1,8 @@
-import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { Container, Header, List, Image } from "semantic-ui-react";
-
 import db from "./firebase-config";
+import React from "react";
 
 class Chat extends React.Component {
   handleClick() {
@@ -16,9 +17,16 @@ class Chat extends React.Component {
       });
   }
 
+  createListItems() {
+    return this.props.users.map(user => {
+      return <li key={user.id}>{user.name}</li>;
+    });
+  }
+
   render() {
     return (
       <Container>
+        {this.createListItems()}
         <Header as="h1" dividing>
           Chat
         </Header>
@@ -46,4 +54,10 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat;
+function mapStateToProps(state) {
+  return {
+    users: state.users
+  };
+}
+
+export default connect(mapStateToProps)(Chat);

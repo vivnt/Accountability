@@ -13,15 +13,22 @@ class SignUp extends Component {
 
     if (user) {
       // User is signed in.
-      this.props.history.push("/profile")
+      this.props.history.push("/profile");
     }
   }
 
   handleClick = () => {
+    const app = this;
     auth
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .catch(function(error) {
         console.log(error);
+        auth.onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            app.props.history.push("/profilel");
+          }
+        });
       })
       .then(function(results) {
         console.log(results);
