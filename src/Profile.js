@@ -72,7 +72,12 @@ class Profile extends Component {
   saveProfile = () => {
     db.collection("users")
       .doc(this.state.uid)
-      .set({ firstName: this.state.firstName, gender: this.state.gender })
+      .set({
+        firstName: this.state.firstName,
+        gender: this.state.gender,
+        age: this.state.age,
+        timezone: this.state.timezone
+      })
       .then(function() {
         console.log("Document successfully written!");
       })
