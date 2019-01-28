@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {Button, Form, Input, Container} from 'semantic-ui-react'
-import {auth} from './firebase-config';
+import React, { Component } from "react";
+import { Button, Form, Input, Container } from "semantic-ui-react";
+import { auth } from "./firebase-config";
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   componentDidMount() {
@@ -13,54 +13,75 @@ class SignIn extends Component {
 
     if (user) {
       // User is signed in.
-      this.props.history.push("/profile")
+      this.props.history.push("/profile");
     }
   }
 
   handleClick = () => {
-    const app = this
-    auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-      console.log(error);
-    }).then(function() {
-      auth.onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          app.props.history.push("/")
+    const app = this;
+    auth
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(function(error) {
+        console.log(error);
+      })
+      .then(function() {
+        auth.onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            app.props.history.push("/");
+          }
+        });
+      })
+      .catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        if (errorCode === "auth/wrong-password") {
+          alert("Wrong password.");
+        } else {
+          alert(errorMessage);
         }
       });
-    }).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+  };
 
-      if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
-      } else {
-        alert(errorMessage);
-      }
-    });
-
-
-  }
-
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
+  };
 
   handleSubmit = () => {
-    this.props.history.push("/")
-  }
+    this.props.history.push("/");
+  };
 
   render() {
-    return (<Container text>
-      <Form>
-        <Form.Field required control={Input} onChange={this.handleChange} name='email' label='Email' placeholder='Email'/>
-        <Form.Field required control={Input} onChange={this.handleChange} name='password' type='password' label='Password' placeholder='Password'/>
-        <Form.Field required control={Button} onClick={this.handleClick}>Submit</Form.Field>
-      </Form>
+    return (
+      <Container text>
+        <h1>Sign In</h1>
+        <Form>
+          <Form.Field
+            required
+            control={Input}
+            onChange={this.handleChange}
+            name="email"
+            label="Email"
+            placeholder="Email"
+          />
+          <Form.Field
+            required
+            control={Input}
+            onChange={this.handleChange}
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Password"
+          />
+          <Form.Field required control={Button} onClick={this.handleClick}>
+            Submit
+          </Form.Field>
+        </Form>
 
-      {/* TODO: Add after creating the user
+        {/* TODO: Add after creating the user
         <Form>
           <Form.Group widths='equal'>
             <Form.Field control={Input} label='First name' placeholder='First name' />
@@ -73,9 +94,9 @@ class SignIn extends Component {
           <Form.Field control={Checkbox} label='I agree to the Terms and Conditions' />
           <Form.Field control={Button}>Submit</Form.Field>
         </Form>
-        */
-      }
-    </Container>)
+        */}
+      </Container>
+    );
   }
 }
 
