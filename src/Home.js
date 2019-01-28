@@ -3,7 +3,6 @@ import { Container, Grid, Header } from "semantic-ui-react";
 
 import Chat from "./Chat";
 import Habits from "./Habits";
-import Calendar from "./Calendar";
 import ProgressReport from "./ProgressReport";
 import Tasks from "./Tasks";
 
@@ -18,7 +17,6 @@ const App = () => (
     >
       <Grid.Column width={4}>
         <Container>
-          <Calendar />
           <ProgressReport />
         </Container>
       </Grid.Column>

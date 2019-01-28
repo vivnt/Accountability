@@ -1,12 +1,9 @@
 import React from "react";
-import {
-  Container,
-  Grid,
-  Header,
-} from "semantic-ui-react";
+import { Container, Grid, Header } from "semantic-ui-react";
+
+// TODO: Need to add listener to firebase
 
 class ProgressReport extends React.Component {
-
   render() {
     return (
       <Container>
@@ -14,25 +11,20 @@ class ProgressReport extends React.Component {
         <div className="ui cards">
           <div className="card">
             <div className="content">
-              <div className="header">Matt
-              </div>
+              <div className="header">Matt</div>
               <div className="description">
                 <div className="description">
                   <Grid.Row>
-                    <span className="right floated">
-                      75%
-                    </span>
+                    <span className="right floated">75%</span>
                     <span>
-                      <i className="check icon"></i>
+                      <i className="check icon" />
                       Tasks
                     </span>
                   </Grid.Row>
                   <Grid.Row>
-                    <span className="right floated">
-                      100%
-                    </span>
+                    <span className="right floated">100%</span>
                     <span>
-                      <i className="user icon"></i>
+                      <i className="user icon" />
                       Habits
                     </span>
                   </Grid.Row>
@@ -45,20 +37,16 @@ class ProgressReport extends React.Component {
               <div className="header">Molly</div>
               <div className="description">
                 <Grid.Row>
-                  <span className="right floated">
-                    50%
-                  </span>
+                  <span className="right floated">50%</span>
                   <span>
-                    <i className="check icon"></i>
+                    <i className="check icon" />
                     Tasks
                   </span>
                 </Grid.Row>
                 <Grid.Row>
-                  <span className="right floated">
-                    85%
-                  </span>
+                  <span className="right floated">85%</span>
                   <span>
-                    <i className="user icon"></i>
+                    <i className="user icon" />
                     Habits
                   </span>
                 </Grid.Row>

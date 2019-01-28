@@ -8,7 +8,7 @@ import {
   TextArea,
   Container
 } from "semantic-ui-react";
-import { auth } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 
 const gender = [
   { key: "m", text: "Male", value: "male" },
@@ -61,18 +61,23 @@ class Profile extends Component {
     if (!user) {
       // User is signed in.
       this.props.history.push("/signin");
+    } else {
+      this.setState({
+        email: user.email,
+        uid: user.uid
+      });
     }
   }
 
-  handleClick = () => {
-    auth
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(function(error) {
-        console.log(error);
+  saveProfile = () => {
+    db.collection("users")
+      .doc(this.state.uid)
+      .set({ firstName: this.state.firstName, gender: this.state.gender })
+      .then(function() {
+        console.log("Document successfully written!");
       })
-      .then(function(results) {
-        console.log(results);
-        console.log("Logged In!");
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
       });
   };
 
@@ -88,10 +93,8 @@ class Profile extends Component {
     );
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+  handleChange = (e, target) => {
+    this.setState({ [target.id]: target.value });
   };
 
   handleSubmit = () => {
@@ -101,17 +104,19 @@ class Profile extends Component {
   render() {
     return (
       <Container text>
+        <h1>Profile</h1>
         <Form>
           <Form.Field
-            required
             control={Input}
+            value={this.state.email}
             onChange={this.handleChange}
+            disabled
             name="email"
             label="Email"
             placeholder="Email"
           />
           <Form.Field
-            required
+            disabled
             control={Input}
             onChange={this.handleChange}
             name="password"
@@ -119,21 +124,19 @@ class Profile extends Component {
             label="Password"
             placeholder="Password"
           />
-          <Form.Field required control={Button} onClick={this.handleClick}>
-            Submit
-          </Form.Field>
-        </Form>
-
-        <Form>
           <Form.Group widths="equal">
             <Form.Field
               control={Input}
+              id="firstName"
+              onChange={this.handleChange}
               label="First name"
               placeholder="First name"
             />
             <Form.Field
               control={Select}
               label="Gender"
+              id="gender"
+              onChange={this.handleChange}
               options={gender}
               placeholder="Gender"
             />
@@ -142,12 +145,16 @@ class Profile extends Component {
             <Form.Field
               control={Select}
               label="Age"
+              onChange={this.handleChange}
+              id="age"
               options={age}
               placeholder="Age"
             />
             <Form.Field
               control={Select}
               label="Timezone"
+              onChange={this.handleChange}
+              id="timezone"
               options={timezone}
               placeholder="Timezone"
             />
@@ -161,18 +168,14 @@ class Profile extends Component {
             control={Checkbox}
             label="I agree to the Terms and Conditions"
           />
-          <Form.Field control={Button}>Submit</Form.Field>
+          <Form.Field control={Button} onClick={this.saveProfile}>
+            Submit
+          </Form.Field>
         </Form>
 
         <Form>
           <Form.Field required control={Button} onClick={this.signOut}>
             Sign Out
-          </Form.Field>
-        </Form>
-
-        <Form>
-          <Form.Field required control={Button} onClick={this.handleSubmit}>
-            Submit
           </Form.Field>
         </Form>
       </Container>

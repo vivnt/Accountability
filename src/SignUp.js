@@ -50,6 +50,7 @@ class SignUp extends Component {
   render() {
     return (
       <Container text>
+        <h1>Sign Up</h1>
         <Form>
           <Form.Field
             required
