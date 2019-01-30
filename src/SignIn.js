@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Button, Form, Input, Container } from "semantic-ui-react";
 import { auth } from "./firebase-config";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { saveUserAction } from "./actions/index";
 
 class SignIn extends Component {
   constructor(props) {
@@ -28,7 +31,11 @@ class SignIn extends Component {
         auth.onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
-            app.props.history.push("/");
+            app.props.saveUserAction({
+              uid: user.uid,
+              email: user.email
+            });
+            // app.props.history.push("/");
           }
         });
       })
@@ -100,4 +107,17 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ saveUserAction: saveUserAction }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(SignIn);

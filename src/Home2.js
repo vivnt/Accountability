@@ -32,7 +32,7 @@ class App extends React.Component {
     return (
       <div>
         {this.createListItems()}
-        <button className="ui button" onClick={this.handleClick()}>
+        <button className="ui button" onClick={this.handleClick}>
           Click Here
         </button>
       </div>
