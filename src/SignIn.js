@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Input, Container } from "semantic-ui-react";
-import { auth } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { saveUserAction } from "./actions/index";
@@ -31,10 +31,32 @@ class SignIn extends Component {
         auth.onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
-            app.props.saveUserAction({
-              uid: user.uid,
-              email: user.email
-            });
+
+            db.collection("users")
+              .doc(user.uid)
+              .get()
+              .then(function(doc) {
+                if (doc.exists) {
+                  app.props.saveUserAction({
+                    uid: user.uid,
+                    email: user.email,
+                    firstName: doc.data().firstName,
+                    age: doc.data().age,
+                    timezone: doc.data().timezone,
+                    gender: doc.data().gender
+                  });
+                } else {
+                  // doc.data() will be undefined in this case
+                  // TODO: Send error and redirect to create profile page
+                  // console.log("No such document!");
+                }
+              });
+            // .catch(function(error) {
+            //TODO: Handle error
+            // console.log("Error getting document:", error);
+            // });
+
+            // TODO: Redirect after sign in
             // app.props.history.push("/");
           }
         });
