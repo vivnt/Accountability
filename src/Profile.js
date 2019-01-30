@@ -9,6 +9,9 @@ import {
   Container
 } from "semantic-ui-react";
 import { db, auth } from "./firebase-config";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { saveUserAction } from "./actions/index";
 
 const gender = [
   { key: "m", text: "Male", value: "male" },
@@ -70,6 +73,7 @@ class Profile extends Component {
   }
 
   saveProfile = () => {
+    const app = this;
     db.collection("users")
       .doc(this.state.uid)
       .set({
@@ -79,20 +83,26 @@ class Profile extends Component {
         timezone: this.state.timezone
       })
       .then(function() {
-        console.log("Document successfully written!");
-      })
-      .catch(function(error) {
-        console.error("Error writing document: ", error);
+        app.props.saveUserAction({
+          firstName: app.state.firstName,
+          age: app.state.age,
+          timezone: app.state.timezone,
+          gender: app.state.gender
+        });
       });
+    // .catch(function(error) {
+    //   console.error("Error writing document: ", error);
+    // });
   };
 
   signOut = () => {
+    const app = this;
     auth.signOut().then(
       function() {
-        console.log("Signed Out");
-        this.props.history.push("/signin");
+        app.props.history.push("/signin");
       },
       function(error) {
+        //TODO: Alert user if sign out is failed
         console.error("Sign Out Error", error);
       }
     );
@@ -188,4 +198,17 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ saveUserAction: saveUserAction }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(Profile);
