@@ -60,15 +60,11 @@ class Profile extends Component {
 
   componentDidMount() {
     var user = auth.currentUser;
+    console.log(this.props.currentUser);
 
     if (!user) {
       // User is signed in.
       this.props.history.push("/signin");
-    } else {
-      this.setState({
-        email: user.email,
-        uid: user.uid
-      });
     }
   }
 
@@ -117,77 +113,93 @@ class Profile extends Component {
   };
 
   render() {
+    if (this.props.currentUser != null) {
+      return (
+        <Container text>
+          <h1>Profile</h1>
+          <Form>
+            <Form.Field
+              control={Input}
+              value={this.props.currentUser.email}
+              onChange={this.handleChange}
+              disabled
+              name="email"
+              label="Email"
+              placeholder="Email"
+            />
+            <Form.Field
+              disabled
+              control={Input}
+              onChange={this.handleChange}
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Password"
+            />
+            <Form.Group widths="equal">
+              <Form.Field
+                control={Input}
+                id="firstName"
+                onChange={this.handleChange}
+                value={this.props.currentUser.firstName}
+                label="First name"
+                placeholder="First name"
+              />
+              <Form.Field
+                control={Select}
+                label="Gender"
+                id="gender"
+                onChange={this.handleChange}
+                value={this.props.currentUser.gender}
+                options={gender}
+                placeholder="Gender"
+              />
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Field
+                control={Select}
+                label="Age"
+                onChange={this.handleChange}
+                value={this.props.currentUser.age}
+                id="age"
+                options={age}
+                placeholder="Age"
+              />
+              <Form.Field
+                control={Select}
+                label="Timezone"
+                onChange={this.handleChange}
+                value={this.props.currentUser.timezone}
+                id="timezone"
+                options={timezone}
+                placeholder="Timezone"
+              />
+            </Form.Group>
+            <Form.Field
+              control={TextArea}
+              label="About"
+              placeholder="Tell us more about you..."
+            />
+            <Form.Field
+              control={Checkbox}
+              label="I agree to the Terms and Conditions"
+            />
+            <Form.Field control={Button} onClick={this.saveProfile}>
+              Submit
+            </Form.Field>
+          </Form>
+
+          <Form>
+            <Form.Field required control={Button} onClick={this.signOut}>
+              Sign Out
+            </Form.Field>
+          </Form>
+        </Container>
+      );
+    }
     return (
       <Container text>
         <h1>Profile</h1>
-        <Form>
-          <Form.Field
-            control={Input}
-            value={this.state.email}
-            onChange={this.handleChange}
-            disabled
-            name="email"
-            label="Email"
-            placeholder="Email"
-          />
-          <Form.Field
-            disabled
-            control={Input}
-            onChange={this.handleChange}
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Password"
-          />
-          <Form.Group widths="equal">
-            <Form.Field
-              control={Input}
-              id="firstName"
-              onChange={this.handleChange}
-              label="First name"
-              placeholder="First name"
-            />
-            <Form.Field
-              control={Select}
-              label="Gender"
-              id="gender"
-              onChange={this.handleChange}
-              options={gender}
-              placeholder="Gender"
-            />
-          </Form.Group>
-          <Form.Group widths="equal">
-            <Form.Field
-              control={Select}
-              label="Age"
-              onChange={this.handleChange}
-              id="age"
-              options={age}
-              placeholder="Age"
-            />
-            <Form.Field
-              control={Select}
-              label="Timezone"
-              onChange={this.handleChange}
-              id="timezone"
-              options={timezone}
-              placeholder="Timezone"
-            />
-          </Form.Group>
-          <Form.Field
-            control={TextArea}
-            label="About"
-            placeholder="Tell us more about you..."
-          />
-          <Form.Field
-            control={Checkbox}
-            label="I agree to the Terms and Conditions"
-          />
-          <Form.Field control={Button} onClick={this.saveProfile}>
-            Submit
-          </Form.Field>
-        </Form>
-
         <Form>
           <Form.Field required control={Button} onClick={this.signOut}>
             Sign Out
