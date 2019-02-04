@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Container, Menu, Button, Icon } from "semantic-ui-react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import Home from "./Home";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -16,8 +18,48 @@ class AppRouter extends React.Component {
 
   changeActiveItem = (e, { name }) => this.setState({ activeItem: name });
 
+  renderRightMenu() {
+    if (this.props.currentUser != null) {
+      return (
+        <div>
+          <Menu.Item
+            as={Link}
+            to="/profile"
+            name="/profile"
+            onClick={this.changeActiveItem}
+          >
+            <Icon size="large" name="user circle" />
+            {this.props.currentUser.firstName}
+          </Menu.Item>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Button
+            as={Link}
+            to="/signin"
+            active={this.state.activeItem === "/signin"}
+            name="/signin"
+            onClick={this.changeActiveItem}
+          >
+            Sign In
+          </Button>
+          <Button
+            as={Link}
+            to="/signup"
+            active={this.state.activeItem === "/signup"}
+            name="/signup"
+            onClick={this.changeActiveItem}
+            style={{ marginLeft: "1em" }}
+          >
+            Sign Up
+          </Button>
+        </div>
+      );
+    }
+  }
   render() {
-    const { activeItem } = this.state;
     return (
       <Router>
         <Container style={{ marginTop: "6em" }}>
@@ -35,7 +77,7 @@ class AppRouter extends React.Component {
               <Menu.Item
                 as={Link}
                 to="/"
-                active={activeItem === ""}
+                active={this.state.activeItem === ""}
                 name=""
                 onClick={this.changeActiveItem}
               >
@@ -46,35 +88,12 @@ class AppRouter extends React.Component {
                 as={Link}
                 to="/profile"
                 name="/profile"
-                active={activeItem === "/profile"}
+                active={this.state.activeItem === "/profile"}
                 onClick={this.changeActiveItem}
               >
                 Profile
               </Menu.Item>
-              <Menu.Item position="right">
-                <Menu.Item>
-                  <Icon size="large" name="user circle" />
-                </Menu.Item>
-                <Button
-                  as={Link}
-                  to="/signin"
-                  active={activeItem === "/signin"}
-                  name="/signin"
-                  onClick={this.changeActiveItem}
-                >
-                  Sign In
-                </Button>
-                <Button
-                  as={Link}
-                  to="/signup"
-                  active={activeItem === "/signup"}
-                  name="/signup"
-                  onClick={this.changeActiveItem}
-                  style={{ marginLeft: "1em" }}
-                >
-                  Sign Up
-                </Button>
-              </Menu.Item>
+              <Menu.Item position="right">{this.renderRightMenu()}</Menu.Item>
             </Container>
           </Menu>
 
@@ -88,4 +107,10 @@ class AppRouter extends React.Component {
   }
 }
 
-export default AppRouter;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+
+export default connect(mapStateToProps)(AppRouter);
