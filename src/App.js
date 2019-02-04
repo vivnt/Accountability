@@ -9,31 +9,69 @@ import Profile from "./Profile";
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeItem: ""
+    };
   }
 
+  changeActiveItem = (e, { name }) => this.setState({ activeItem: name });
+
   render() {
+    const { activeItem } = this.state;
     return (
       <Router>
         <Container style={{ marginTop: "6em" }}>
           <Menu pointing secondary fixed="top" size="large">
             <Container>
-              <Menu.Item header>Accountability</Menu.Item>
-              <Menu.Item as={Link} to="/" active>
+              <Menu.Item
+                header
+                as={Link}
+                to="/"
+                name=""
+                onClick={this.changeActiveItem}
+              >
+                Accountability
+              </Menu.Item>
+              <Menu.Item
+                as={Link}
+                to="/"
+                active={activeItem === ""}
+                name=""
+                onClick={this.changeActiveItem}
+              >
                 Home
               </Menu.Item>
 
-              <Menu.Item as={Link} to="/profile">
+              <Menu.Item
+                as={Link}
+                to="/profile"
+                name="/profile"
+                active={activeItem === "/profile"}
+                onClick={this.changeActiveItem}
+              >
                 Profile
               </Menu.Item>
               <Menu.Item position="right">
                 <Menu.Item>
                   <Icon size="large" name="user circle" />
                 </Menu.Item>
-                <Button as={Link} to="/signin">
+                <Button
+                  as={Link}
+                  to="/signin"
+                  active={activeItem === "/signin"}
+                  name="/signin"
+                  onClick={this.changeActiveItem}
+                >
                   Sign In
                 </Button>
-                <Button as={Link} to="/signup" style={{ marginLeft: "1em" }}>
+                <Button
+                  as={Link}
+                  to="/signup"
+                  active={activeItem === "/signup"}
+                  name="/signup"
+                  onClick={this.changeActiveItem}
+                  style={{ marginLeft: "1em" }}
+                >
                   Sign Up
                 </Button>
               </Menu.Item>
