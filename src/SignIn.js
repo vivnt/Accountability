@@ -57,7 +57,7 @@ class SignIn extends Component {
             // });
 
             // TODO: Redirect after sign in
-            // app.props.history.push("/");
+            app.props.history.push("/");
           }
         });
       })
