@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Container, Menu, Button } from "semantic-ui-react";
+import { Container, Menu, Button, Icon } from "semantic-ui-react";
 import Home from "./Home";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -15,20 +15,25 @@ class AppRouter extends React.Component {
   render() {
     return (
       <Router>
-        <Container>
-          <Menu fixed="top">
+        <Container style={{ marginTop: "6em" }}>
+          <Menu pointing secondary fixed="top" size="large">
             <Container>
-              <Menu.Item as={Link} to="/">
+              <Menu.Item header>Accountability</Menu.Item>
+              <Menu.Item as={Link} to="/" active>
                 Home
               </Menu.Item>
+
               <Menu.Item as={Link} to="/profile">
                 Profile
               </Menu.Item>
               <Menu.Item position="right">
+                <Menu.Item>
+                  <Icon size="large" name="user circle" />
+                </Menu.Item>
                 <Button as={Link} to="/signin">
                   Sign In
                 </Button>
-                <Button as={Link} to="/signup" style={{ marginLeft: "15px" }}>
+                <Button as={Link} to="/signup" style={{ marginLeft: "1em" }}>
                   Sign Up
                 </Button>
               </Menu.Item>
